@@ -75,7 +75,7 @@ Each byte consists of 8 bits (MSB first) without any start and stop bits, direct
 
   0:  /\\/\\/\\/\\________
   
-  1:  /\/\/\/\/\/\/\/\/\________
+  1:  /\\/\\/\\/\\/\\/\\/\\/\\/\\________
   
 Each pulse is split into a 150us High period, and 150us Low period. The duration of the silence between each bit is 1300us. The baud rate is thus 400 bps (for a "0" filled area) downto 250 bps (for a "1" filled area). Average medium transfer rate is approx. 307 bps (38 bytes/sec) for files that contain 50% of "0" and "1" bits each.
 
@@ -84,7 +84,7 @@ _________________________________
 **ESP8266 code**
 
 The ESP8266 will need to read a file from the file system, returning each byte (with low address bytes first), and then the data will be shifted out bit wise starting with the most significant bit of the byte. The output from the ESP8266 will be as described (4-pulses 150us high, 150us low with 1300us after last low period for a 0 bit, 9-pulses 150us high, 150us low with 1300us after last low period for a 1 bit. 
-I added a file read and data send routine to the basic FSBrowser code, and also modified the file read routine so that the byte send function is called for each byte read from the file. This code is nothing fancy, but it does work nicely. Please see the attached sketch for details on the code structure. 
+I added a file read and data send routine to the basic FSBrowser code, and also modified the file read routine so that the byte send function is called for each byte read from the file. This code is nothing fancy, but it does work nicely. Please see the sketch for details on the code structure. 
 I also had to make a few very basic modifications to the JavaScript code to accept the various ZX80 file types. This is in the edit.htm file that is loaded into the ESP8266 data space. 
 Note that FSBrowser uses the Ace.js text editor in edit.htm, so it requires internet access from the router that assigns the IP address to be fully capable. Without internet access it will default to a very basic text mode. 
 
