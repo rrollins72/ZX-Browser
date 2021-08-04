@@ -31,31 +31,54 @@ The ZX80 with the 4K ROM has a LOAD and SAVE command to use the cassette tape ou
 
 _________________________________
 ZX81 Cassette File Structure
+
   x seconds    your voice, saying "filename" (optional)
+  
   x seconds    video noise
-  5 seconds    silence (only some clock cycles required for ZX81)
+  
+  5 seconds    silence (only some clock cycles required for ZX8)
+  
   1-127 bytes  filename (bit7 set in last char)
+  
   LEN bytes    data, loaded to address 4009h, LEN=(4014h)-4009h.
+  
   1 pulse      video retrace signal (only if display was enabled)
+  
   x seconds    silence / video noise
+  
 The data field contains the system area, the basic program, the video memory, and VARS area.
 
+
+
 ZX80 Cassette File Structure
+
   x seconds    your voice, saying "filename" (optional)
+  
   x seconds    video noise
+  
   5 seconds    silence (at least 0.5 seconds REQUIRED for ZX80)
+  
   LEN bytes    data, loaded to address 4000h, LEN=(400Ah)-4000h.
+  
   x seconds    silence / video noise
+  
 ZX80 files do not have filenames, and video memory is not included in the file.
 
+
 File End
+
 For both ZX80 and ZX81 the fileend is calculated as shown above. In either case, the last byte of a (clean) file should be 80h (ie. the last byte of the VARS area), not followed by any further signals except eventually video noise.
 
 Bits and Bytes
+
 Each byte consists of 8 bits (MSB first) without any start and stop bits, directly followed by the next byte. A "0" bit consists of four high pulses, a "1" bit of nine pulses, either one followed by a silence period.
+
   0:  /\/\/\/\________
+  
   1:  /\/\/\/\/\/\/\/\/\________
+  
 Each pulse is split into a 150us High period, and 150us Low period. The duration of the silence between each bit is 1300us. The baud rate is thus 400 bps (for a "0" filled area) downto 250 bps (for a "1" filled area). Average medium transfer rate is approx. 307 bps (38 bytes/sec) for files that contain 50% of "0" and "1" bits each.
+
 _________________________________
 
 **ESP8266 code**
