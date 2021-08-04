@@ -3,6 +3,7 @@ ZX-Browser for ZX80 program loading based on FSbrowser for 8266
 **Problems with loading programs**
 I kept having a LOT of problems with loading software. I had just a couple .wav files to try. Most programs are saved as bit images in .o or .p files. I found a program to convert the file to audio, or to create a .wav file from the image file, for output from the PC computer to the ZX80 cassette input. The output from my simple USB audio adapter plugged into my test laptop was not nearly enough to drive the cassette input. Looking at the circuit and tracing components on the ZX80 told me why. Not sufficient drive to the LS365 (IC10) to receive any data. The LS365 needs at least 2.0V for a guaranteed high input with a 5V supply. I am getting less than 1.5V (see image). This is too low. I wondered about that.
 ![image](https://user-images.githubusercontent.com/76188172/128247404-e8e4868f-4c75-41ee-93e4-f492407f0b37.png)
+
 **Output of USB audio output as seen at R1**
 The drive to this circuit would need to develop at least 3V across the input resistor (180Ω ) to give an input large enough for the LS365 (IC10) to receive reliably. I needed at a minimum a small power amplifier to hook to the output of the laptop or USB adapter or another approach. 
 **File considerations**
