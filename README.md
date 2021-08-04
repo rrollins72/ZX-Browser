@@ -73,7 +73,7 @@ Bits and Bytes
 
 Each byte consists of 8 bits (MSB first) without any start and stop bits, directly followed by the next byte. A "0" bit consists of four high pulses, a "1" bit of nine pulses, either one followed by a silence period.
 
-  0:  /\/\/\/\________
+  0:  /\\/\\/\\/\\________
   
   1:  /\/\/\/\/\/\/\/\/\________
   
