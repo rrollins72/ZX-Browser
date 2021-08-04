@@ -18,4 +18,4 @@ a.	There is more than 3Mbyte of space available on ESP8266 module I am using. Th
 b.	Programs can be stored in native binary .o, .80, .p, .81 or .p81 format
 2.	Program the ESP8266 to create an ideal output that duplicated the cassette output
 3.	Drive the cassette input to the ZX80 with a simple FET switch and a convenient power source to give sufficient drive voltage
-I had a couple Wemos D1 clone parts that I had been playing with, so I decided to use that as my processing base. (Search Amazon for ‘d1 mini esp8266’ for several vendors).
+I had a couple Wemos D1 clone parts that I had been playing with, so I decided to use that as my processing base. 
