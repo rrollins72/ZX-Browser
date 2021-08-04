@@ -88,3 +88,15 @@ I added a file read and data send routine to the basic FSBrowser code, and also 
 I also had to make a few very basic modifications to the JavaScript code to accept the various ZX80 file types. This is in the edit.htm file that is loaded into the ESP8266 data space. 
 Note that FSBrowser uses the Ace.js text editor in edit.htm, so it requires internet access from the router that assigns the IP address to be fully capable. Without internet access it will default to a very basic text mode. 
 
+**Driver Circuit**
+![image](https://user-images.githubusercontent.com/76188172/128250644-c7111150-5356-4850-9095-cfed24e83914.png)
+
+Please note that the 120Ω resistor is needed to drive the input to approximately 3V. If you don’t have the 180Ω resistor on the ZX cassette input (the ZX81 has a 220Ω from what I have seen, and the 120Ω is still fine), you could adjust this value. A 470Ω should work fine if there is no 180Ω input resistor to ground. 
+This is a pretty basic circuit, but it will generate a very reliable signal at the cassette input. Here is what the input to the LS365 looks like with this circuit driving the cassette input:
+![image](https://user-images.githubusercontent.com/76188172/128250746-271c9d82-5a6f-4241-93e6-80799580f8a7.png)
+ 
+**Signal on IC10 pin 2 (at R1)**
+
+Note that the signal is slightly above 3V and below 0V. The low side of the signal is clamped by the TTL input. The high input is adequate to drive a high for sufficient time for the ZX80 to sample properly. (This is an image of a binary 1 signal at the input to IC10, the LS365).
+
+
