@@ -49,7 +49,7 @@ SPIFFSConfig fileSystemConfig = SPIFFSConfig();
 
 const char* ssid = STASSID;
 const char* password = STAPSK;
-const char* host = "zxbrowser";
+const char* host = "ZXBrowser";
 
 ESP8266WebServer server(80);
 
