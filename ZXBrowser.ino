@@ -43,10 +43,8 @@ SPIFFSConfig fileSystemConfig = SPIFFSConfig();
 #define DBG_OUTPUT_PORT Serial
 
 #ifndef STASSID
-//#define STASSID "your SSID"
-#define STASSID "rr_1"
-//#define STAPSK  "your pskey"
-#define STAPSK  "This2shallpass"
+#define STASSID "your SSID"
+#define STAPSK  "your pskey"
 #endif
 
 const char* ssid = STASSID;
