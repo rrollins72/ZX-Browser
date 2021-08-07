@@ -3,13 +3,13 @@ ZX-Browser for ZX80 program loading based on FSbrowser for 8266
 
 **Problems with loading programs**
 
-I kept having a LOT of problems with loading software on my ZX80. I had a couple .wav files to try, but most programs are saved as bit images in .o or .p files. I found a program to convert the file to audio, or to create a .wav file from the image file, for output from the PC computer to the ZX80 cassette input. The output from my basic USB audio adapter plugged into my test laptop was not nearly enough to drive the cassette input. Looking at the circuit and tracing components on the ZX80 told me why. Not sufficient drive to the LS365 (IC10) to receive any data. The LS365 needs at least 2.0V for a guaranteed high input with a 5V supply. I am getting less than 1.5V (see image). This is too low. I wondered about that.
+I kept having a LOT of problems with loading software on my ZX80. I had a couple .wav files to try, but most programs are saved as bit images in .o or .p files. I found a program to convert the file to audio, or to create a .wav file from the image file, for output from the PC computer to the ZX80 cassette input. The output from my basic USB audio adapter plugged into my test laptop, and the laptop output was not nearly enough to drive the cassette input. Looking at the circuit and tracing components on the ZX80 told me why. Not sufficient drive to the LS365 (IC10) to receive any data. The LS365 needs at least 2.0V for a guaranteed high input with a 5V supply. I am getting less than 1.5V (see image). This is too low. I wondered about that. I found that my ZX80 had a 180Ω resistor to ground at the input.
 
 ![image](https://user-images.githubusercontent.com/76188172/128247404-e8e4868f-4c75-41ee-93e4-f492407f0b37.png)
 
 **Output of USB audio output as seen at R1**
 
-The drive to this circuit would need to develop at least 3V across the input resistor (180Ω ) to give an input large enough for the LS365 (IC10) to receive reliably. I needed at a minimum a small power amplifier to hook to the output of the laptop or USB adapter or another approach. 
+The drive to this circuit would need to develop at least 3V across the input resistor (180Ω ) to give an input large enough for the LS365 (IC10) in the ZX80 to receive reliably. I needed at a minimum a small power amplifier to hook to the output of the laptop or USB adapter or another approach. 
 
 **File considerations**
 
@@ -85,8 +85,10 @@ _________________________________
 **ESP8266 code**
 
 The ESP8266 will need to read a file from the file system, returning each byte (with low address bytes first), and then the data will be shifted out bit wise starting with the most significant bit of the byte. The output from the ESP8266 will be as described (4-pulses 150us high, 150us low with 1300us after last low period for a 0 bit, 9-pulses 150us high, 150us low with 1300us after last low period for a 1 bit. 
-I added a file read and data send routine to the basic FSBrowser code, and also modified the file read routine so that the byte send function is called for each byte read from the file. This code is nothing fancy, but it does work nicely. Please see the sketch for details on the code structure. 
+I added a file read and data send routine to the basic FSBrowser code, and also modified the file read routine so that the byte send function is called for each byte read from the file. This code is nothing fancy, but it does work nicely. Please see the sketch for details on the code structure.
+
 I also had to make a few very basic modifications to the JavaScript code to accept the various ZX80 file types. This is in the edit.htm file that is loaded into the ESP8266 data space. 
+
 Note that FSBrowser uses the Ace.js text editor in edit.htm, so it requires internet access from the router that assigns the IP address to be fully capable. Without internet access it will default to a very basic text mode.
 
 I have included in the data directory (which is uploaded to the 8266 with the Arduino IDE) a zx directory which has a selection of 4K ZX80 programs and 8K ZX80 programs. I have also included a zxb directory that is a web page describing the effort (similar to this readme). 
@@ -108,4 +110,11 @@ This is a pretty basic circuit, but it will generate a very reliable signal at t
 
 Note that the signal is slightly above 3V and below 0V. The low side of the signal is clamped by the TTL input. The high input is adequate to drive a high for sufficient time for the ZX80 to sample properly. (This is an image of a binary 1 signal at the input to IC10, the LS365).
 
+**Building and Using the ZXBrowser Code**
+
+Start with setting up the Arduino IDE to build the FSBrowser code. The FSBrowser link and the other links shown give a pretty good overview of what is required to get the ESP8266 loaded and running. Once functioning on the ESP8266, building the ZXBrowser should be straight forward. The sketch and other files can be found at this link.
+
+To load a file you just have to click on it on the directory listing to the left and it will begin sending data to the ZX80. If you want to upload a new file, you click the upload button and select the file you want on your PC and it will upload to the 8266 file-space and then it will begin sending the data to the ZX80.
+
+When a data load to the ZX80 is in process, the Wifi capabilities are put on hold, so the browser will cease to respond. It will return to normal operation once the file send is complete. 
 
