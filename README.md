@@ -18,10 +18,15 @@ Having played with the ESP8266 a little, and having played with the FSBrowser ex
 
 **What I want**
 1.	Store all the ZX80  programs on the ESP8266 file space (they are very small, and I don’t have a lot)
-a.	There is more than 3Mbyte of space available on ESP8266 module I am using. This could easily be sufficient storage for a couple hundred ZX80 programs.
-b.	Programs can be stored in native binary .o, .80, .p, .81 or .p81 format
+  
+    a.	There is more than 3Mbyte of space available on ESP8266 module I am using. This could easily be sufficient storage for a couple hundred ZX80 programs.
+
+    b.	Programs can be stored in native binary .o, .80, .p, .81 or .p81 format
+  
 2.	Program the ESP8266 to create an ideal output that duplicated the cassette output
+
 3.	Drive the cassette input to the ZX80 with a simple FET switch and a convenient power source to give sufficient drive voltage
+
 I had a couple Wemos D1 clone parts that I had been playing with, so I decided to use that as my processing base. 
 
 **Software Considerations**
@@ -85,7 +90,8 @@ _________________________________
 **ESP8266 code**
 
 The ESP8266 will need to read a file from the file system, returning each byte (with low address bytes first), and then the data will be shifted out bit wise starting with the most significant bit of the byte. The output from the ESP8266 will be as described (4-pulses 150us high, 150us low with 1300us after last low period for a 0 bit, 9-pulses 150us high, 150us low with 1300us after last low period for a 1 bit. 
-I added a file read and data send routine to the basic FSBrowser code, and also modified the file read routine so that the byte send function is called for each byte read from the file. This code is nothing fancy, but it does work nicely. Please see the sketch for details on the code structure.
+
+I added a file read and data send routine to the basic FSBrowser code, and also modified the file read routine so that the byte send function is called for each byte read from the file. I also added handling for the ZX80 file types. This code is nothing fancy, but it does work nicely. Please see the sketch for details on the code structure.
 
 I also had to make a few very basic modifications to the JavaScript code to accept the various ZX80 file types. This is in the edit.htm file that is loaded into the ESP8266 data space. 
 
