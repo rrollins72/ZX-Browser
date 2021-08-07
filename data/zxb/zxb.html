@@ -1,0 +1,443 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.0 Transitional//EN">
+<html>
+<head>
+	<meta http-equiv="content-type" content="text/html; charset=utf-8"/>
+	<title></title>
+	<meta name="generator" content="LibreOffice 6.1.5.2 (Linux)"/>
+	<meta name="author" content="Randy Rollins"/>
+	<meta name="created" content="2021-07-16T23:57:00"/>
+	<meta name="changed" content="2021-08-05T14:33:03.123086502"/>
+	<meta name="AppVersion" content="12.0000"/>
+	<meta name="Company" content="HP"/>
+	<meta name="DocSecurity" content="0"/>
+	<meta name="HyperlinksChanged" content="false"/>
+	<meta name="LinksUpToDate" content="false"/>
+	<meta name="ScaleCrop" content="false"/>
+	<meta name="ShareDoc" content="false"/>
+	<style type="text/css">
+		@page { size: 8.5in 11in; margin: 1in }
+		p { margin-bottom: 0.1in; direction: ltr; line-height: 115%; text-align: left; orphans: 2; widows: 2; background: transparent }
+		a:link { color: #0000ff; text-decoration: underline }
+	</style>
+</head>
+<body lang="en-US" link="#0000ff" vlink="#800000" dir="ltr"><p style="margin-bottom: 0.14in">
+<font size="5" style="font-size: 18pt"><b>ZX80 Computer revisited </b></font><font size="5" style="font-size: 18pt"><b>and
+adding program loading</b></font><font size="5" style="font-size: 18pt"><b>
+capability with an ESP8266 </b></font><font size="5" style="font-size: 18pt"><b>(ZXBrowser)</b></font></p>
+<p style="margin-bottom: 0.14in"><b>Getting the ZX80 working</b></p>
+<p style="margin-bottom: 0.14in">I had a very basic ZX80 computer in
+one of my storage boxes from long ago and decided I would see if it
+worked. After a couple minor fixes that were needed it came right up,
+which was delightful. 
+</p>
+<p style="margin-bottom: 0.14in">I wanted to expand the memory above
+the 1K bytes it came with, so I built up a RAM expansion board and a
+ROM expansion for utilizing a ZX81 8K ROM image if I wanted to. (See
+<font color="#0000ff"><u><a href="http://searle.x10host.com/zx80/zx80.html">http://searle.x10host.com/zx80/zx80.html</a></u></font>
+for a good overview). 
+</p>
+<p style="margin-bottom: 0.14in">I also added a reset switch to the
+RAM expansion board which is very useful. I decided to power the ZX80
+with a 5V wall power supply that is hooked up to the RAM expansion
+board, so the internal power supply regulator is bypassed. 
+</p>
+<p style="margin-bottom: 0in; line-height: 100%"><img src="zxb1.gif" name="Picture 25" align="bottom" hspace="1" width="259" height="345" border="0"/>
+</p>
+<p style="margin-bottom: 0.14in"><b>ZX80 with RAM expansion installed</b></p>
+<p style="margin-bottom: 0.14in">I didn’t have any monitors that
+would work, so I added the ‘back-porch’ circuit for more standard
+video. See
+<font color="#0000ff"><u><a href="http://www.fruitcake.plus.com/Sinclair/ZX80/VideoGeneration/ZX80_BackPorchGeneration.htm">http://www.fruitcake.plus.com/Sinclair/ZX80/VideoGeneration/ZX80_BackPorchGeneration.htm</a></u></font>
+for a good explanation of the need for this circuit. 
+</p>
+<p style="margin-bottom: 0.14in">There were several that I looked at,
+but I liked this one (and I had a 7408 in my old parts drawer..). I
+did add a 1K to ground at the base of the transistor. This moves the
+signal level slightly and is closer to standard video. I built it and
+put it inside the modulator box.</p>
+<p style="margin-bottom: 0.14in"><img src="zxb_bp.png" name="Picture 1" align="bottom" hspace="1" width="505" height="206" border="0"/>
+</p>
+<p style="margin-bottom: 0.14in"><b>Back Porch circuit used for the
+ZX80</b></p>
+<p style="margin-bottom: 0.14in"><img src="zxb_bpc.png" name="Picture 4" align="bottom" hspace="1" width="281" height="243" border="0"/>
+</p>
+<p style="margin-bottom: 0.14in"><b>Back porch circuit installed in
+modulator box</b></p>
+<p style="margin-bottom: 0in; line-height: 100%">I found this circuit
+worked well with the flat screen TVs with analog input I had, and
+with a video-to-HDMI adapter that I had so I could use an HDMI
+monitor.</p>
+<p style="margin-bottom: 0.14in">Here is what the display looks like
+through the HDMI adapter to a monitor with a game running.</p>
+<p style="margin-bottom: 0.14in"><img src="zxb_pac.gif" align="bottom"/>
+</p>
+<p style="margin-bottom: 0.14in"><b>Display with Paul Farrow’s
+PacMan running</b></p>
+<p style="margin-bottom: 0.14in"><b>Problems with loading programs</b></p>
+<p style="margin-bottom: 0.14in">All the hardware came up fine, but I
+kept having a LOT of problems with loading software. I had just a
+couple .wav files to try. Most programs are saved as bit images in .o
+or .p files. I found a program to convert the file to audio, or to
+create a .wav file from the image file, for output from the PC
+computer to the ZX80 cassette input. The output from my basic USB
+audio adapter or my test laptop was not nearly enough to
+drive the cassette input. Looking at the circuit and tracing
+components on the ZX80 told me why. Not sufficient drive to the LS365
+(IC10) to receive any data. The LS365 needs at least 2.0V for a
+guaranteed high input with a 5V supply. I am getting less than 1.5V
+(see image). This is too low. I wondered about that.</p>
+<p style="margin-bottom: 0.14in"><img src="zxb_low.gif" name="Picture 3" align="bottom" hspace="1" width="293" height="118" border="0"/>
+</p>
+<p style="margin-bottom: 0.14in"><b>Output of USB audio output as
+seen at R1</b></p>
+<p style="margin-bottom: 0.14in"><b>Cassette Input Circuit</b></p>
+<p style="margin-bottom: 0.14in">Most of the ZX80 schematics I found
+look like this for the cassette input:</p>
+<p style="margin-bottom: 0.14in"><img src="zxb_ti.png" name="Image1" align="bottom" hspace="1" width="290" height="104" border="0"/>
+</p>
+<p style="margin-bottom: 0.14in">Mine looked like this (with some
+additional components added by the manufacturer):</p>
+<p style="margin-bottom: 0.14in"><img src="zxb_ti1.png" name="Picture 10" align="bottom" hspace="1" width="368" height="94" border="0"/>
+</p>
+<p style="margin-bottom: 0.14in">I am sure the additional 180Ω
+resistor and 100pf cap were added to give a lower impedance input and
+to provide a little filtering for tape recorder/player outputs. That
+meant that the drive to this circuit would need to develop at least
+3V across the input resistor (180Ω ) to give an input large enough
+for the LS365 (IC10) to receive reliably. I needed at a minimum a
+small power amplifier to hook to the output of the laptop or USB
+adapter, or another approach. 
+</p>
+<p style="margin-bottom: 0.14in"><b>File considerations</b></p>
+<p style="margin-bottom: 0.14in">I also wanted to have a simple way
+to access files that I might want to load into the ZX80. Storing them
+on the laptop is easy, but they have to be output to the analog
+output with a special program that converts the digital image to
+analog, or to a .wav file (which can be very large since the data
+rate is so slow). So having a small dedicated storage capability with
+data conversion would be very nice.</p>
+<p style="margin-bottom: 0.14in">Having played with the ESP8266 a
+little, and having played with the FSBrowser example (see
+<font color="#0000ff"><u><a href="https://github.com/esp8266/Arduino/tree/master/libraries/ESP8266WebServer/examples/FSBrowser">https://github.com/esp8266/Arduino/tree/master/libraries/ESP8266WebServer/examples/FSBrowser</a></u></font>).
+I decided I would use this as a basis for what I wanted to do next.</p>
+<p style="margin-bottom: 0.14in"><b>What I want</b><b>ed</b></p>
+<ol>
+	<li><p style="margin-bottom: 0.14in">Store all the ZX80  programs on
+	the ESP8266 file space (they are very small, and I don’t have a
+	lot)</p>
+	<ol type="a">
+		<li><p style="margin-bottom: 0.14in">There is more than 3Mbyte of
+		space available on ESP8266 module I am using. This could easily be
+		sufficient storage for a couple hundred ZX80 programs.</p>
+		<li><p style="margin-bottom: 0.14in">Programs can be stored in
+		native binary .o, .80, .p, .81 or .p81 format</p>
+	</ol>
+	<li><p style="margin-bottom: 0.14in">Program the ESP8266 to create
+	an ideal output that duplicated the cassette output</p>
+	<li><p style="margin-bottom: 0.14in">Drive the cassette input to the
+	ZX80 with a simple FET switch and a convenient power source to give
+	sufficient drive voltage</p>
+</ol>
+<p style="margin-bottom: 0.14in">I had a couple Wemos D1 clone parts
+that I had been playing with, so I decided to use that as my
+processing base. (Search Amazon for ‘d1 mini esp8266’ for several
+vendors).</p>
+<p style="margin-bottom: 0.14in"><b>Circuit Basics</b></p>
+<p style="margin-bottom: 0.14in">The ZX80 is a 5V TTL based unit. The
+D1 mini I am using is a 3.3V device, with a capability for using 5V
+input power (coming from the USB or on a pin on the board). To drive
+the ZX80 cleanly, I will need to develop at least 3V into the
+cassette input. I decided the easiest way to do this is to use the 5V
+USB power for the driver circuit, and run the D1 mini with a standard
+5V input from a power brick. The 3.3V data output from the D1 mini
+will drive a MOSFET (2N7002) and it will switch the 5V source across
+a resistor. I will isolate the output to the ZX80 with a 10uF
+capacitor. Here is the circuit that I came up with.</p>
+<p style="margin-bottom: 0.14in"><img src="zxb_drv.png" name="Image2" align="bottom" hspace="1" width="499" height="256" border="0"/>
+</p>
+<p style="margin-bottom: 0.14in"><b>ESP8266 (Wemos D1 mini) and
+driver circuit</b></p>
+<p style="margin-bottom: 0.14in">Please note that the 120Ω resistor
+is needed to drive the input to approximately 3V. If you don’t have
+the 180Ω resistor on the ZX cassette input (the ZX81 has a 220Ω
+from what I have seen, and the 120Ω is still fine), you could
+adjust this value. A 470Ω should work fine if there is no 180Ω
+input resistor to ground. 
+</p>
+<p style="margin-bottom: 0.14in">This is a pretty basic circuit, but
+it will generate a very reliable signal at the cassette input. Here
+is what the input to the LS365 looks like with this circuit driving
+the cassette input:</p>
+<p style="margin-bottom: 0.14in"><img src="zxb_hi.jpg" name="Picture 6" align="bottom" hspace="1" width="240" height="219" border="0"/>
+</p>
+<p style="margin-bottom: 0.14in"><b>Signal on IC10 pin 2 (at R1)</b></p>
+<p style="margin-bottom: 0.14in">Note that the signal is slightly
+above 3V and below 0V. The low side of the signal is clamped by the
+TTL input. The high input is adequate to drive a high for sufficient
+time for the ZX80 to sample properly. (This is an image of a binary 1
+signal at the input to IC10, the LS365).</p>
+<p style="margin-bottom: 0.14in"><b>Setting Up the Arduino IDE for
+ESP8266</b></p>
+<p style="margin-bottom: 0.14in">I had previously modified my Arduino
+IDE to work with the ESP8266. There are some very detailed tutorials
+on how to set this up. Here is a good link for learning basics of the
+8266:</p>
+<p style="margin-bottom: 0.14in"><font color="#0000ff"><u><a href="https://randomnerdtutorials.com/getting-started-with-esp8266-wifi-transceiver-review/">https://randomnerdtutorials.com/getting-started-with-esp8266-wifi-transceiver-review/</a></u></font></p>
+<p style="margin-bottom: 0.14in">And another:</p>
+<p style="margin-bottom: 0.14in"><font color="#0000ff"><u><a href="https://tttapa.github.io/ESP8266/Chap01%20-%20ESP8266.html">https://tttapa.github.io/ESP8266/Chap01%20-%20ESP8266.html</a></u></font></p>
+<p style="margin-bottom: 0.14in">There is plenty of general
+information in those links to get the ESP8266 working in the Arduino
+IDE. It won’t be covered any further here.</p>
+<p style="margin-bottom: 0.14in"><b>Software Considerations</b></p>
+<p style="margin-bottom: 0.14in">The basic FSBrowser code makes the
+ESP8266 into a small webserver with access to the file system on the
+ESP8266. It provides capability to view the files and to edit them if
+desired. This means that you can access the files on the ESP8266 with
+your favorite browser and a knowledge of the IP address that is
+acquired by the ESP8266 from your WiFI router when the system is
+initialized. I have not chosen to run this with a web manager module,
+so the SSID and key are hard coded in the sketch. You will need to
+build the code in the Arduino IDE with your SSID and key. I also
+opted to use the SPIFFS file system for this implementation. These
+can be changed if you are of a mind to make it more robust.</p>
+<p style="margin-bottom: 0.14in"><b>ZX80 (and ZX81) data input and
+output</b></p>
+<p style="margin-bottom: 0.14in">The ZX80 with the 4K ROM has a LOAD
+and SAVE command to use the cassette tape output and input. There are
+no file name parameters, so the data that is output and input are bit
+images of the data in memory. With an 8K ROM installed, the file
+structure has the capability for names. Here is a link that has a
+good summary of the cassette signals:
+<font color="#0000ff"><u><a href="https://problemkaputt.de/zxdocs.htm">https://problemkaputt.de/zxdocs.htm</a></u></font>.
+Here is the section from that web site for file structure and
+signaling:</p>
+<p style="margin-bottom: 0.14in">_________________________________</p>
+<p style="margin-bottom: 0in; line-height: 100%"><font color="#000000"><font face="Times New Roman, serif"><b>ZX81
+Cassette File Structure</b></font></font></p>
+<table width="572" cellpadding="0" cellspacing="0">
+	<col width="572"/>
+
+	<tr>
+		<td width="572" style="border: none; padding: 0in"><p style="margin-bottom: 0in">
+			  <font face="Courier New, serif">x seconds    your voice, saying
+			&quot;filename&quot; (optional)</font></p>
+			<p style="margin-bottom: 0in">  <font face="Courier New, serif">x
+			seconds    video noise</font></p>
+			<p style="margin-bottom: 0in">  <font face="Courier New, serif">5
+			seconds    silence (only some clock cycles required for ZX81)</font></p>
+			<p style="margin-bottom: 0in">  <font face="Courier New, serif">1-127
+			bytes  filename (bit7 set in last char)</font></p>
+			<p style="margin-bottom: 0in">  <font face="Courier New, serif">LEN
+			bytes    data, loaded to address 4009h, LEN=(4014h)-4009h.</font></p>
+			<p style="margin-bottom: 0in">  <font face="Courier New, serif">1
+			pulse      video retrace signal (only if display was enabled)</font></p>
+			<p>  <font face="Courier New, serif">x seconds    silence / video
+			noise</font></p>
+		</td>
+	</tr>
+</table>
+<p style="margin-bottom: 0in; line-height: 100%"><font color="#000000"><font face="Times New Roman, serif"><span style="background: #ffffff">The
+data field contains the system area, the basic program, the video
+memory, and VARS area.</span></font></font><font color="#000000"><font face="Times New Roman, serif"><br/>
+<br/>
+</font></font><font color="#000000"><font face="Times New Roman, serif"><b>ZX80
+Cassette File Structure</b></font></font></p>
+<table width="563" cellpadding="0" cellspacing="0">
+	<col width="563"/>
+
+	<tr>
+		<td width="563" style="border: none; padding: 0in"><p style="margin-bottom: 0in">
+			  <font face="Courier New, serif">x seconds    your voice, saying
+			&quot;filename&quot; (optional)</font></p>
+			<p style="margin-bottom: 0in">  <font face="Courier New, serif">x
+			seconds    video noise</font></p>
+			<p style="margin-bottom: 0in">  <font face="Courier New, serif">5
+			seconds    silence (at least 0.5 seconds REQUIRED for ZX80)</font></p>
+			<p style="margin-bottom: 0in">  <font face="Courier New, serif">LEN
+			bytes    data, loaded to address 4000h, LEN=(400Ah)-4000h.</font></p>
+			<p>  <font face="Courier New, serif">x seconds    silence / video
+			noise</font></p>
+		</td>
+	</tr>
+</table>
+<p style="margin-bottom: 0in; line-height: 100%"><font color="#000000"><font face="Times New Roman, serif"><span style="background: #ffffff">ZX80
+files do not have filenames, and video memory is not included in the
+file.</span></font></font><font color="#000000"><font face="Times New Roman, serif"><br/>
+<br/>
+</font></font><font color="#000000"><font face="Times New Roman, serif"><b>File
+End</b></font></font><font color="#000000"><font face="Times New Roman, serif"><br/>
+</font></font><font color="#000000"><font face="Times New Roman, serif"><span style="background: #ffffff">For
+both ZX80 and ZX81 the fileend is calculated as shown above. In
+either case, the last byte of a (clean) file should be 80h (ie. the
+last byte of the VARS area), not followed by any further signals
+except eventually video noise.</span></font></font><font color="#000000"><font face="Times New Roman, serif"><br/>
+<br/>
+</font></font><font color="#000000"><font face="Times New Roman, serif"><b>Bits
+and Bytes</b></font></font><font color="#000000"><font face="Times New Roman, serif"><br/>
+</font></font><font color="#000000"><font face="Times New Roman, serif"><span style="background: #ffffff">Each
+byte consists of 8 bits (MSB first) without any start and stop bits,
+directly followed by the next byte. A &quot;0&quot; bit consists of
+four high pulses, a &quot;1&quot; bit of nine pulses, either one
+followed by a silence period.</span></font></font></p>
+<table width="282" cellpadding="0" cellspacing="0">
+	<col width="282"/>
+
+	<tr>
+		<td width="282" style="border: none; padding: 0in"><p style="margin-bottom: 0in">
+			  <font face="Courier New, serif">0:  /\/\/\/\________</font></p>
+			<p>  <font face="Courier New, serif">1: 
+			/\/\/\/\/\/\/\/\/\________</font></p>
+		</td>
+	</tr>
+</table>
+<p style="margin-bottom: 0.14in"><font color="#000000"><font face="Times New Roman, serif"><span style="background: #ffffff">Each
+pulse is split into a 150us High period, and 150us Low period. The
+duration of the silence between each bit is 1300us. The baud rate is
+thus 400 bps (for a &quot;0&quot; filled area) downto 250 bps (for a
+&quot;1&quot; filled area). Average medium transfer rate is approx.
+307 bps (38 bytes/sec) for files that contain 50% of &quot;0&quot;
+and &quot;1&quot; bits each.</span></font></font></p>
+<p style="margin-bottom: 0.14in"><font color="#000000"><font face="Times New Roman, serif"><span style="background: #ffffff">_________________________________</span></font></font></p>
+<p style="margin-bottom: 0.14in"><b>ESP8266 code</b></p>
+<p style="margin-bottom: 0.14in">The ESP8266 will need to read a file
+from the file system, returning each byte (with low address bytes
+first), and then the data will be shifted out bit wise starting with
+the most significant bit of the byte. The output from the ESP8266
+will be as described (4-pulses 150us high, 150us low with 1300us
+after last low period for a 0 bit, 9-pulses 150us high, 150us low
+with 1300us after last low period for a 1 bit. 
+</p>
+<p style="margin-bottom: 0.14in">I added a file read and data send
+routine to the basic FSBrowser code, and also modified the file read
+routine so that the byte send function is called for each byte read
+from the file. This code is nothing fancy, but it does work nicely.
+Please see the sketch for details on the code structure. 
+</p>
+<p style="margin-bottom: 0.14in">I also had to make a few very basic
+modifications to the JavaScript code to accept the various ZX80 file
+types. This is in the edit.htm file that is loaded into the ESP8266
+data space. 
+</p>
+<p style="margin-bottom: 0.14in">Note that FSBrowser uses the Ace.js
+text editor in edit.htm, so it requires internet access from the
+router that assigns the IP address to be fully capable. Without
+internet access it will default to a very basic text mode. 
+</p>
+<p style="margin-bottom: 0.14in"><b>Building and Using the ZX-Browser
+Code</b></p>
+<p style="margin-bottom: 0.14in">Start with setting up the Arduino
+IDE to build the FSBrowser code. The FSBrowser link and the other
+links shown give a pretty good overview of what is required to get
+the ESP8266 loaded and running. Once functioning on the ESP8266,
+building the ZX-Browser should be straight forward. The sketch and
+other files can be found at this link:
+<a href="https://github.com/rrollins72/ZX-Browser/tree/main">https://github.com/rrollins72/ZX-Browser/tree/main</a></p>
+<p style="margin-bottom: 0.14in">Here is a screen shot of the
+functioning code. To load a file you just have to click on it on the
+directory listing to the left and it will begin sending data to the
+ZX80. If you want to upload a new file, you click the upload button
+and select the file you want on your PC and it will upload to the
+8266 file-space and then it will begin sending the data to the ZX80.
+</p>
+<p style="margin-bottom: 0.14in">When a data load to the ZX80 is in process,
+ the Wifi capabilities are put on hold, so the browser will cease to respond.
+ It will return to normal operation once the file send is complete. 
+</p>
+<p style="margin-bottom: 0.14in"><img src="zxb_screen.gif" name="Picture 2" align="bottom" hspace="1" width="638" height="477" border="0"/>
+</p>
+<p style="margin-bottom: 0.14in"><b>Screen Shot of ZX-Browser running</b></p>
+<p style="margin-bottom: 0.14in">I have included in the data directory
+(which is uploaded to the 8266 with the Arduino IDE) a zx directory which
+ has a selection of 4K ZX80 programs and 8K ZX80 programs. I have also 
+ included a zxb directory that is a web page describing the effort. 
+</p>
+<p style="margin-bottom: 0.14in"><b>Building the hardware</b></p>
+<p style="margin-bottom: 0in; line-height: 100%">The hardware for the
+ZX-Browser driver circuit is built with these components:</p>
+<p style="margin-bottom: 0in; line-height: 100%"><br/>
+
+</p>
+<p style="margin-bottom: 0in; line-height: 100%">1-ESP8266 board
+(Wemos D1 mini)</p>
+<p style="margin-bottom: 0in; line-height: 100%">1-10K resistor</p>
+<p style="margin-bottom: 0in; line-height: 100%">1-1K resistor (only
+if you want a connected indicator)</p>
+<p style="margin-bottom: 0in; line-height: 100%">1-green LED (only if
+you want a connected indicator)</p>
+<p style="margin-bottom: 0in; line-height: 100%">1-2N7002 MOSFET
+transistor</p>
+<p style="margin-bottom: 0in; line-height: 100%">1-120ohm ¼ watt
+resistor</p>
+<p style="margin-bottom: 0in; line-height: 100%">1-10uF 6.3V
+electrolytic capacitor</p>
+<p style="margin-bottom: 0in; line-height: 100%">1-.1uF 25V ceramic
+capacitor</p>
+<p style="margin-bottom: 0in; line-height: 100%">1-3.5mm audio jack
+(female socket)</p>
+<p style="margin-bottom: 0in; line-height: 100%">A 30mm wide
+prototype board for mounting the components. The PCB is cut to 52mm
+in length. 
+</p>
+<p style="margin-bottom: 0in; line-height: 100%"><br/>
+
+</p>
+<p style="margin-bottom: 0in; line-height: 100%">Here is the
+completed hardware (on proto board).</p>
+<p style="margin-bottom: 0in; line-height: 100%"><br/>
+
+</p>
+<p style="margin-bottom: 0in; line-height: 100%"><img src="zxb_bb.gif" align="bottom"/>
+</p>
+<p style="margin-bottom: 0in; line-height: 100%"><b>D1 Mini based
+hardware</b></p>
+<p style="margin-bottom: 0in; line-height: 100%"><br/>
+
+</p>
+<p style="margin-bottom: 0in; line-height: 100%"><b>Small Case</b></p>
+<p style="margin-bottom: 0in; line-height: 100%">I put the hardware
+in a small 3D printed case. Here is the file for the case that I
+used. (See it in the code link).</p>
+<p style="margin-bottom: 0in; line-height: 100%"><img src="zxb_stl.gif" name="Object1" align="bottom"/>
+</p>
+<p style="margin-bottom: 0in; line-height: 100%">Here is the case
+with the board functioning inside</p>
+<p style="margin-bottom: 0in; line-height: 100%"><br/>
+
+</p>
+<p style="margin-bottom: 0in; line-height: 100%"><img src="zxb_box.gif" align="bottom"/>
+</p>
+<p style="margin-bottom: 0in; line-height: 100%"><b>Case with board
+inside</b></p>
+<p style="margin-bottom: 0.14in"><br/>
+<br/>
+
+</p>
+<p style="margin-bottom: 0.14in">Here is the whole system hooked up</p>
+<p style="margin-bottom: 0.14in"><img src="zxb_sys.gif"/>
+</p>
+<p style="margin-bottom: 0.14in">And running MAZOGS (by Paul Farrow)</p>
+<p style="margin-bottom: 0.14in"><img src="zxb_sys1.gif" align="bottom"/>
+</p>
+<p style="margin-bottom: 0.14in"><br/>
+<br/>
+
+</p>
+<p style="margin-bottom: 0.14in"><b>Conclusion</b></p>
+<p style="margin-bottom: 0in; line-height: 100%">With the ZX80 fully
+functioning and having the ability to load a program using a browser
+to select the file makes this approach nicely versatile and
+dependable. It still takes a while to load up files that are pushing
+16K, but that is how it has always been with this beast. I am pleased
+with how this all came together.</p>
+<p style="margin-bottom: 0in; line-height: 100%"><br/>
+
+</p>
+<p style="margin-bottom: 0in; line-height: 100%"><br/>
+
+</p>
+<p style="margin-bottom: 0.14in"><br/>
+<br/>
+
+</p>
+</body>
+</html>
