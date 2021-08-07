@@ -3,7 +3,7 @@ ZX-Browser for ZX80 program loading based on FSbrowser for 8266
 
 **Problems with loading programs**
 
-I kept having a LOT of problems with loading software on my ZX80. I had a couple .wav files to try, but most programs are saved as bit images in .o or .p files. I found a program to convert the file to audio, or to create a .wav file from the image file, for output from the PC computer to the ZX80 cassette input. The output from my simple USB audio adapter plugged into my test laptop was not nearly enough to drive the cassette input. Looking at the circuit and tracing components on the ZX80 told me why. Not sufficient drive to the LS365 (IC10) to receive any data. The LS365 needs at least 2.0V for a guaranteed high input with a 5V supply. I am getting less than 1.5V (see image). This is too low. I wondered about that.
+I kept having a LOT of problems with loading software on my ZX80. I had a couple .wav files to try, but most programs are saved as bit images in .o or .p files. I found a program to convert the file to audio, or to create a .wav file from the image file, for output from the PC computer to the ZX80 cassette input. The output from my basic USB audio adapter plugged into my test laptop was not nearly enough to drive the cassette input. Looking at the circuit and tracing components on the ZX80 told me why. Not sufficient drive to the LS365 (IC10) to receive any data. The LS365 needs at least 2.0V for a guaranteed high input with a 5V supply. I am getting less than 1.5V (see image). This is too low. I wondered about that.
 
 ![image](https://user-images.githubusercontent.com/76188172/128247404-e8e4868f-4c75-41ee-93e4-f492407f0b37.png)
 
@@ -87,7 +87,11 @@ _________________________________
 The ESP8266 will need to read a file from the file system, returning each byte (with low address bytes first), and then the data will be shifted out bit wise starting with the most significant bit of the byte. The output from the ESP8266 will be as described (4-pulses 150us high, 150us low with 1300us after last low period for a 0 bit, 9-pulses 150us high, 150us low with 1300us after last low period for a 1 bit. 
 I added a file read and data send routine to the basic FSBrowser code, and also modified the file read routine so that the byte send function is called for each byte read from the file. This code is nothing fancy, but it does work nicely. Please see the sketch for details on the code structure. 
 I also had to make a few very basic modifications to the JavaScript code to accept the various ZX80 file types. This is in the edit.htm file that is loaded into the ESP8266 data space. 
-Note that FSBrowser uses the Ace.js text editor in edit.htm, so it requires internet access from the router that assigns the IP address to be fully capable. Without internet access it will default to a very basic text mode. 
+Note that FSBrowser uses the Ace.js text editor in edit.htm, so it requires internet access from the router that assigns the IP address to be fully capable. Without internet access it will default to a very basic text mode.
+
+I have included in the data directory (which is uploaded to the 8266 with the Arduino IDE) a zx directory which has a selection of 4K ZX80 programs and 8K ZX80 programs. I have also included a zxb directory that is a web page describing the effort (similar to this readme). 
+
+
 
 **Driver Circuit**
 
